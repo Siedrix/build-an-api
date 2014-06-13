@@ -2,9 +2,8 @@ var express = require('express');
 
 var app = express();
 
-app.get('/api/v1/status', function (req, res) {
-	res.send({status:'ok'});
-});
+var apiController = require('./controllers/api');
+apiController(app);
 
 app.listen(3000);
 console.log('App running on http://localhost:3000');
