@@ -1,8 +1,8 @@
 module.exports = function(grunt) {
 	grunt.initConfig({
 		watch: {
-			scripts: {
-				files: ['test/*.js', 'controllers/*.js', 'models/*.js', 'app.js'],
+			test: {
+				files: ['test/*.js', 'controllers/*.js', 'models/*.js', 'lib/*js','app.js', 'config/*.json', 'Gruntfile.js'],
 				tasks: ['env:test','mochaTest'],
 				options: {
 					spawn: true,
