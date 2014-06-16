@@ -1,7 +1,11 @@
-var express = require('express');
-var db = require('./lib/db');
+var express = require('express'),
+	db = require('./lib/db'),
+	bodyParser = require('body-parser');
 
 var app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 db.loadModels('app', 'activity');
 

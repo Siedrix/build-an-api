@@ -14,20 +14,25 @@ var expect = chai.expect;
 
 var db = require('../lib/db');
 
-db.loadModels('app');
-
+db.loadModels('app','activity');
 
 var App = db.model('app');
+var Activity = db.model('activity');
 
-beforeEach(function (done) {
+before(function (done) {
 	async.parallel([
-		function(done){App      .remove({}, done);},
+		function(done){App.remove({}, done);},
+		function(done){Activity.remove({}, done);},
 	], function(err){
 		if(err){return done(err);}
 
 		async.waterfall([
 			function(done){
-				App.create({name:'testApp', description:'This is a app for testing'}, done);
+				App.create({name:'testApp', description:'This is a app for testing'}, function(err, app){
+					fs.writeFileSync('./test-data/app.json', JSON.stringify( app.toJSON() ) );
+					
+					done(err);
+				});
 			}
 		], done);
 	});
@@ -45,8 +50,6 @@ describe('Set up', function () {
 			expect(app.name).to.equal('testApp');
 			expect(app.token).exist;
 			expect(app.token.length).to.equal(64);
-
-			fs.writeFileSync('./test-data/app.json', JSON.stringify( app.toJSON() ) );
 
 			done();
 		});
